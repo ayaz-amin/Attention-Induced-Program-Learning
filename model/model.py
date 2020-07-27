@@ -108,7 +108,7 @@ class TypeModel(nn.Module):
         Returns
         -------
         phw_list: [(torch.tensor, torch.tensor, torch.tensor)]
-            A list containing the feature index, the row, and the column of each part.
+            A list containing the feature index, the row, and the column of each part
             Needed for convolving over the final image
         '''
 
