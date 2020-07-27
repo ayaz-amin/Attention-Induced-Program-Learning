@@ -102,7 +102,16 @@ class TypeModel(nn.Module):
         return dist_h.sample(), dist_w.sample()
 
     def forward(self):
-        '''Generate image'''
+        '''
+        Generate image
+
+        Returns
+        -------
+        phw_list: [(torch.tensor, torch.tensor, torch.tensor)]
+            A list containing the feature index, the row, and the column of each part.
+            Needed for convolving over the final image
+        '''
+
         k = self.sample_k()
         phw_list = []
 
