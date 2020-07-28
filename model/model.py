@@ -3,6 +3,7 @@ import torch.nn as nn
 
 from type_model import TypeModel
 from rendering_model import RenderingModel
+from deformation_model import DeformationModel
 
 
 class AttentionInduction(nn.Module):
@@ -27,12 +28,14 @@ class AttentionInduction(nn.Module):
         The shape of the (generated) image  
     '''
 
-    def __init__(self, max_k=5, num_parts=10, filter_size=(64, 64), image_shape=(105, 105)):
+    def __init__(self, max_k=5, num_parts=10, filter_size=(64, 64), image_shape=(1, 105, 105)):
         super(AttentionInduction, self).__init__()
         '''
         Attributes
         ----------
 
+        height, width: int, int
+            Height and width of the image
         type_model: nn.Module
             The type model that generates, well, a type
         rendering_model: nn.Module
@@ -41,7 +44,10 @@ class AttentionInduction(nn.Module):
             The token model generates slight deformations onto the final image
         '''
 
-        self.type_model = TypeModel(max_k=max_k, num_parts=num_parts, image_shape=image_shape)
-        self.rendering_model = RenderingModel(num_parts=num_parts, filter_size=filter_size, image_shape=image_shape)
-        #TODO: implement token model. A Spatial Transformer will probably do
-        self.token_model = TokenModel()
+        height, width = image_shape[0], image_shape[1]
+        self.type_model = TypeModel(max_k=max_k, num_parts=num_parts, image_shape=(height, width))
+        self.rendering_model = RenderingModel(num_parts=num_parts, filter_size=filter_size, image_shape=(height, width))
+        self.token_model = DeformationModel(image_shape=image_shape)
+
+    def forward(self, x):
+        pass
