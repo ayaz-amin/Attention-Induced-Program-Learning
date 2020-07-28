@@ -37,7 +37,7 @@ class AttentionInduction(nn.Module):
         height, width: int, int
             Height and width of the image
         type_model: nn.Module
-            The type model that generates, well, a type
+            The type model generates, well, a type
         rendering_model: nn.Module
             The rendering model renders the final image
         token_model: nn.Module
