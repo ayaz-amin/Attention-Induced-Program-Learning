@@ -44,7 +44,7 @@ class AttentionInduction(nn.Module):
             The token model generates slight deformations onto the final image
         '''
 
-        height, width = image_shape[0], image_shape[1]
+        height, width = image_shape[1], image_shape[2]
         self.type_model = TypeModel(max_k=max_k, num_parts=num_parts, image_shape=(height, width))
         self.rendering_model = RenderingModel(num_parts=num_parts, filter_size=filter_size, image_shape=(height, width))
         self.token_model = DeformationModel(image_shape=image_shape)
