@@ -10,7 +10,7 @@ class DeformationModel(nn.Module):
     Parameters
     ----------
 
-    image_shape: (int, int)
+    image_shape: (int, int, int)
         The shape of the generated image
     '''
 
