@@ -57,17 +57,17 @@ class DeformationModel(nn.Module):
         '''
 
         if noise is None:
-            noise = torch.randn((x.size(0), 1, x.size(2), x.size(3)))
-        
-        assert noise.size(0) == x.size(0), \
-            "Batch sizes are not the same"
+            noise = torch.randn(x.size())
 
-        assert noise.size(2) == x.size(2), \
+        assert noise.size(0) == x.size(0), \
             "Heights are not the same"
 
-        assert noise.size(3) == x.size(3), \
+        assert noise.size(1) == x.size(1), \
             "Widths are not the same"
 
+        x = x.unsqueeze(0).unsqueeze(0)
+        noise = noise.unsqueeze(0).unsqueeze(0)
+        
         concat_x = torch.cat([x, noise], dim=1)
 
         theta = self.localization_net(concat_x)
@@ -76,4 +76,4 @@ class DeformationModel(nn.Module):
         grid = F.affine_grid(theta, x.size(), align_corners=True)
         x_hat = F.grid_sample(x, grid, align_corners=True)
 
-        return x_hat
+        return x_hat.squeeze(0).squeeze(0)

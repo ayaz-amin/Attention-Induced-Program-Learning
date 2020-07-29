@@ -43,7 +43,7 @@ class TypeModel(nn.Module):
         self.k = nn.Parameter(torch.ones((max_k)) / 1.0 * max_k)
         self.P = nn.Parameter(torch.ones((max_k, num_parts)) / 1.0 * num_parts)
 
-        cd_h, cd_w = image_shape[0] - 5, image_shape[1] - 5
+        cd_h, cd_w = image_shape[0], image_shape[1]
         self.height_matrix = nn.Parameter(torch.ones((max_k, cd_h)) / 1.0 * cd_h)
         self.width_matrix = nn.Parameter(torch.ones((max_k, cd_w)) / 1.0 * cd_w)
 
@@ -168,7 +168,7 @@ class ConditionalTypeModel(nn.Module):
         self.k = nn.Parameter(torch.ones((num_classes, max_k)) / 1.0 * max_k)
         self.P = nn.Parameter(torch.ones((num_classes, max_k, num_parts)) / 1.0 * num_parts)
 
-        cd_h, cd_w = image_shape[0] - 5, image_shape[1] - 5
+        cd_h, cd_w = image_shape[0], image_shape[1]
         self.height_matrix = nn.Parameter(torch.ones((num_classes, max_k, cd_h)) / 1.0 * cd_h)
         self.width_matrix = nn.Parameter(torch.ones((num_classes, max_k, cd_w)) / 1.0 * cd_w)
 
