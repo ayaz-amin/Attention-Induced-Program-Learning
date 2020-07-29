@@ -1,7 +1,7 @@
+import numpy as np
+
 import torch
 import torch.nn as nn
-
-import numpy as np
 
 
 class RenderingModel(nn.Module):
@@ -74,6 +74,6 @@ class RenderingModel(nn.Module):
 
         for i, (part_idx, row, column) in enumerate(phw_list):
             filts = self.filters[part_idx][from_fr[i]:to_fr[i], from_fc[i]:to_fc[i]]
-            canvas[from_r[i]:to_r[i], from_c[i]:to_c[i]] += filt
+            canvas[from_r[i]:to_r[i], from_c[i]:to_c[i]] += filts
 
         return canvas

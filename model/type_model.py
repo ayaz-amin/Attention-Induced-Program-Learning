@@ -1,3 +1,5 @@
+import numpy as np
+
 import torch
 import torch.nn as nn
 
@@ -122,4 +124,4 @@ class TypeModel(nn.Module):
         if len(phw_list) == 0:
             self.forward()
 
-        return phw_list
+        return np.array(phw_list)

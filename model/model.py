@@ -24,7 +24,7 @@ class AttentionInduction(nn.Module):
     filter_size: (int, int)
         The shape of the convolution kernels for convolving over the sparse
         representation of an image
-    image_shape: (int, int)
+    image_shape: (int, int, int)
         The shape of the (generated) image  
     '''
 
@@ -49,5 +49,6 @@ class AttentionInduction(nn.Module):
         self.rendering_model = RenderingModel(num_parts=num_parts, filter_size=filter_size, image_shape=(height, width))
         self.token_model = DeformationModel(image_shape=image_shape)
 
-    def forward(self, x):
-        pass
+    def forward(self):
+        phw_list = self.type_model()
+        return self.rendering_model(phw_list)
