@@ -75,7 +75,9 @@ class ConditionalAttentionInduction(nn.Module):
 
     Parameters
     ----------
-
+    
+    num_classes: int
+        The number of classes the model can sample from
     max_k: int
         Maximum number of parts that can be present in an image at once
     num_parts: int
