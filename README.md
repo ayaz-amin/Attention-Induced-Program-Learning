@@ -1,3 +1,1 @@
-don't even bother reading this, just get into the code
-
-Edit: It's still a work in progress.
+Edit: It's still a work in progress. Use code once the research paper is out. When it comes out, no one knowwwwws...
