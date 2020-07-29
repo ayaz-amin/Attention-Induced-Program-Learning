@@ -88,7 +88,7 @@ class ConditionalTaskModel(object):
 
         Parameters
         ----------
-        
+
         image: numpy.ndarray
             The testing image
         pool_shape: (int, int)
@@ -104,3 +104,16 @@ class ConditionalTaskModel(object):
         # Forward pass
         top_candidate = infer(image, self.model_factors, pool_shape=pool_shape, num_candidates=1)
         return self.labels[top_candidate]
+
+    def generate_new_exemplars(self, class_idx=None):
+        '''
+        Generate new exemplars of a given class
+
+        Returns
+        -------
+
+        image: 2D torch.tensor
+            The generated image
+        '''
+        
+        return self.model(class_idx)

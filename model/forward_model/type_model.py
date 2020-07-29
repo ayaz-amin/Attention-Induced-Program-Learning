@@ -244,7 +244,7 @@ class ConditionalTypeModel(nn.Module):
 
         return dist_h.sample(), dist_w.sample()
 
-    def forward(self, class_idx):
+    def forward(self, class_idx=None):
         '''
         Generate image type
 
@@ -260,8 +260,14 @@ class ConditionalTypeModel(nn.Module):
             Needed for convolving over the final image
         '''
 
-        assert class_idx <= self.num_classes - 1, \
-            "Class index is out of bounds"
+        if class_idx is not None:
+            assert class_idx <= self.num_classes - 1, \
+                "Class index is out of bounds"
+        
+        else:
+            class_priors = torch.ones((self.num_classes)) / self.num_classes
+            dist = Categorical(class_priors)
+            class_idx = dist.sample()
 
         k = self.sample_k(class_idx)
         phw_list = []
