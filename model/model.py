@@ -49,7 +49,7 @@ class AttentionInduction(nn.Module):
         self.rendering_model = RenderingModel(num_parts=num_parts, filter_size=filter_size, image_shape=(height, width))
         self.token_model = DeformationModel(image_shape=image_shape)
 
-    def forward(self):
+    def forward(self, noise=None):
         '''
         Forward generation of an image type
 
@@ -61,7 +61,7 @@ class AttentionInduction(nn.Module):
         '''
         phw_list = self.type_model()
         type_img = self.rendering_model(phw_list)
-        token_img = self.token_model(type_img)
+        token_img = self.token_model(type_img, noise=noise)
         return token_img
 
 
@@ -110,7 +110,7 @@ class ConditionalAttentionInduction(nn.Module):
         self.rendering_model = RenderingModel(num_parts=num_parts, filter_size=filter_size, image_shape=(height, width))
         self.token_model = DeformationModel(image_shape=image_shape)
 
-    def forward(self, class_idx):
+    def forward(self, class_idx, noise=None):
         '''
         Forward generation of an image type
 
@@ -127,5 +127,5 @@ class ConditionalAttentionInduction(nn.Module):
         '''
         phw_list = self.type_model(class_idx)
         type_img = self.rendering_model(phw_list)
-        token_img = self.token_model(type_img)
+        token_img = self.token_model(type_img, noise=noise)
         return token_img
