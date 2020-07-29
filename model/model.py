@@ -50,5 +50,16 @@ class AttentionInduction(nn.Module):
         self.token_model = DeformationModel(image_shape=image_shape)
 
     def forward(self):
+        '''
+        Forward generation of an image type
+
+        Returns
+        -------
+
+        token_image: 2D torch.tensor
+            The final generated image
+        '''
         phw_list = self.type_model()
-        return self.rendering_model(phw_list)
+        type_img = self.rendering_model(phw_list)
+        token_img = self.token_model(type_img)
+        return token_img
