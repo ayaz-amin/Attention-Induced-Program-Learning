@@ -82,42 +82,25 @@ class ConditionalTaskModel(object):
 
         return model_factors, labels
 
-    def predict(self, image, pool_shape, num_candidates, num_iterations):
+    def predict(self, image, pool_shape):
         '''
         Predict the class that the input image belongs to
 
         Parameters
         ----------
+        
         image: numpy.ndarray
             The testing image
         pool_shape: (int, int)
             Pooling shape of the RCN
-        num_candidates: int
-            Number of candidates for backward-pass post-processing
-        num_iterations: int
-            Number of iterations to run MCMC
 
         Returns
         -------
 
-        winner_idx: int
+        top_candidate: int
             The predicted index of the class
         '''
 
-        winner_idx, winner_probs = -1, 0
-
         # Forward pass
-        top_candidates = infer(image, self.model_factors, pool_shape=pool_shape, num_candidates=num_candidates)
-
-        # Backward pass
-        for i in top_candidates:
-            class_idx = self.labels[i]
-            log_probs = self.mcmc(class_idx, num_iterations=num_iterations)
-            if log_probs > winner_probs:
-                winner_idx = class_idx
-                winner_probs = log_probs
-
-        return winner_idx
-
-    def mcmc(self, class_idx, num_iterations):
-        pass
+        top_candidate = infer(image, self.model_factors, pool_shape=pool_shape, num_candidates=1)
+        return self.labels[top_candidate]
