@@ -1,1 +1,1 @@
-This is a pure Python 3.7 refactor of the ([reference](https://github.com/vicariousinc/science_rcn/) implementation of the) Recursive Cortical Network. Note that only the forward pass inference is implemented to avoid any confusion and to clean up the code a bit.
+This is a pure Python 3.7 refactor of the ([reference](https://github.com/vicariousinc/science_rcn/) implementation of the) Recursive Cortical Network.
