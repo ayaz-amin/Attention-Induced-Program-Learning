@@ -1,6 +1,7 @@
 """
 Learn a two-layer RCN model. See train_image for the main entry.
 """
+from collections import namedtuple
 import numpy as np
 import networkx as nx
 from scipy.spatial import distance, cKDTree
@@ -8,9 +9,11 @@ from scipy.spatial import distance, cKDTree
 from .preproc import Preproc
 
 
-def train_image(img, perturb_factor=2., use_adjaceny_graph=False):
-    """Main function for training on one image.
+ModelFactors = namedtuple('ModelFactors', 'frcs edge_factors graph')
 
+
+def train_image(img, perturb_factor=2.):
+    """Main function for training on one image.
     Parameters
     ----------
     img : 2D numpy.ndarray
@@ -18,12 +21,14 @@ def train_image(img, perturb_factor=2., use_adjaceny_graph=False):
     perturb_factor : float
         How much two points are allowed to vary on average given the distance
         between them. See Sec S2.3.2 for details.
-
     Returns
     -------
     frcs : numpy.ndarray of numpy.int
         Nx3 array of (feature idx, row, column), where each row represents a
         single pool center
+    edge_factors : numpy.ndarray of numpy.int
+        Nx3 array of (source pool index, target pool index, perturb_radius), where
+        each row is a pairwise constraints on a pair of pool choices.
     graph : networkx.Graph
         An undirected graph whose edges describe the pairwise constraints between
         the pool centers.
@@ -35,8 +40,8 @@ def train_image(img, perturb_factor=2., use_adjaceny_graph=False):
     # Sparsification (cf. Sec 5.1.1)
     frcs = sparsify(bu_msg)
     # Lateral learning (cf. 5.2)
-    graph = learn_laterals(frcs, bu_msg, perturb_factor=perturb_factor, use_adjaceny_graph=use_adjaceny_graph)
-    return (frcs, graph)
+    graph, edge_factors = learn_laterals(frcs, bu_msg, perturb_factor=perturb_factor)
+    return ModelFactors(frcs, edge_factors, graph)
 
 
 def sparsify(bu_msg, suppress_radius=3):
@@ -75,12 +80,15 @@ def learn_laterals(frcs, bu_msg, perturb_factor, use_adjaceny_graph=False):
         graph = adjust_edge_perturb_radii(frcs, graph, perturb_factor=perturb_factor)
     else:
         graph = nx.Graph()
-        graph.add_nodes_from(list(range(frcs.shape[0])))
+        graph.add_nodes_from(range(frcs.shape[0]))
 
     graph = add_underconstraint_edges(frcs, graph, perturb_factor=perturb_factor)
     graph = adjust_edge_perturb_radii(frcs, graph, perturb_factor=perturb_factor)
 
-    return graph
+    edge_factors = np.array(
+        [(edge_source, edge_target, edge_attrs['perturb_radius'])
+         for edge_source, edge_target, edge_attrs in graph.edges_iter(data=True)])
+    return graph, edge_factors
 
 
 def make_adjacency_graph(frcs, bu_msg, max_dist=3):
