@@ -87,7 +87,7 @@ def learn_laterals(frcs, bu_msg, perturb_factor, use_adjaceny_graph=False):
 
     edge_factors = np.array(
         [(edge_source, edge_target, edge_attrs['perturb_radius'])
-         for edge_source, edge_target, edge_attrs in graph.edges_iter(data=True)])
+         for edge_source, edge_target, edge_attrs in list(graph.edges(data=True))])
     return graph, edge_factors
 
 
