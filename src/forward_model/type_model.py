@@ -190,7 +190,10 @@ class ConditionalTypeModel(nn.Module):
 
         k_class = self.k[class_idx]
         dist = Categorical(k_class)
-        return dist.sample()
+        k = dist.sample()
+        if k == 0:
+            k = 1
+        return k
     
     def sample_part(self, class_idx, k_i):
         '''
@@ -278,6 +281,6 @@ class ConditionalTypeModel(nn.Module):
             phw_list.append((part_i, h_i, w_i))
 
         if len(phw_list) == 0:
-            self.forward()
+            self.forward(class_idx)
 
         return np.array(phw_list)

@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
 
-from type_model import TypeModel, ConditionalTypeModel
-from rendering_model import RenderingModel
-from deformation_model import DeformationModel
+from .type_model import TypeModel, ConditionalTypeModel
+from .rendering_model import RenderingModel
+from .deformation_model import DeformationModel
 
 
 class AttentionInduction(nn.Module):
@@ -59,6 +59,7 @@ class AttentionInduction(nn.Module):
         token_image: 2D torch.tensor
             The final generated image
         '''
+        
         phw_list = self.type_model()
         type_img = self.rendering_model(phw_list)
         token_img = self.token_model(type_img, noise=noise)
@@ -125,6 +126,7 @@ class ConditionalAttentionInduction(nn.Module):
         token_image: 2D torch.tensor
             The final generated image
         '''
+
         phw_list = self.type_model(class_idx)
         type_img = self.rendering_model(phw_list)
         token_img = self.token_model(type_img, noise=noise)

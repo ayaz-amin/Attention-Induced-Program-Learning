@@ -6,7 +6,7 @@ import numpy as np
 import networkx as nx
 from scipy.spatial import distance, cKDTree
 
-from preproc import Preproc
+from .preproc import Preproc
 
 
 ModelFactors = namedtuple('ModelFactors', 'frcs edge_factors graph')

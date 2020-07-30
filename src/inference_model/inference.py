@@ -3,7 +3,7 @@ import networkx as nx
 from numpy.random import rand, randint
 
 from scipy.ndimage.morphology import grey_dilation as dilate_2d
-from preproc import Preproc
+from .preproc import Preproc
 
 
 class RCNInferenceError(Exception):
