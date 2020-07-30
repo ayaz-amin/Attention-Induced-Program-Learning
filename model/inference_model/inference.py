@@ -3,7 +3,7 @@ import networkx as nx
 from numpy.random import rand, randint
 
 from scipy.ndimage.morphology import grey_dilation as dilate_2d
-from .preproc import Preproc
+from preproc import Preproc
 
 
 class RCNInferenceError(Exception):
@@ -293,7 +293,7 @@ class LoopyBPInference(object):
         """Parallel loopy BP message passing, modifying state of `lat_messages`.
         See bwd_pass() for parameters.
         """
-        for it in xrange(self.n_iters):
+        for it in range(self.n_iters):
             new_lat_messages = self.new_messages()
             delta = new_lat_messages - self.lat_messages
             self.lat_messages += self.damping * delta
