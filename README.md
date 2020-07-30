@@ -1,1 +1,1 @@
-Edit: This one's an even bigger fail. But I only learn from mistakes.
+This one's an even bigger fail. But I only learn from mistakes.
